@@ -2,7 +2,7 @@ import React from 'react'
 
 const Page = () => {
   // Remplace ce lien par ton vrai lien de groupe WhatsApp
-  const whatsappGroupLink = "https://chat.whatsapp.com/VOTRELIENDEGROUPE"
+  const whatsappGroupLink = "https://chat.whatsapp.com/H56YkJTKRY5HLMaioT1aNK"
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6 text-center">

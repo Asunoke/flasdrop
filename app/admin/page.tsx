@@ -1,12 +1,20 @@
+import type { Metadata } from "next"
 import { Package, ShoppingCart, Users } from "lucide-react"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import AdminHeader from "@/components/admin-header"
 import AdminSidebar from "@/components/admin-sidebar"
-import OrdersTable from "@/components/admin-orders-table"
-import VendorsTable from "@/components/admin-vendors-table"
+import { getStats } from "@/lib/admin"
+import { formatPrice } from "@/lib/utils"
 
-export default function AdminDashboardPage() {
+export const metadata: Metadata = {
+  title: "Tableau de bord Admin | FlashDrop Market",
+  description: "Gérez la plateforme FlashDrop Market",
+}
+
+export default async function AdminDashboardPage() {
+  const stats = await getStats()
+
   return (
     <div className="flex min-h-screen flex-col">
       <AdminHeader />
@@ -17,7 +25,9 @@ export default function AdminDashboardPage() {
         {/* Main content */}
         <main className="flex-1 overflow-auto bg-[#F3F4F6] p-4 md:p-6">
           <div className="mx-auto max-w-7xl">
-            <h1 className="mb-6 text-2xl font-bold">Tableau de bord Administrateur</h1>
+            <div className="flex justify-between items-center mb-6">
+              <h1 className="text-2xl font-bold">Tableau de bord Administratif</h1>
+            </div>
 
             {/* Stats cards */}
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -27,7 +37,7 @@ export default function AdminDashboardPage() {
                   <ShoppingCart className="h-4 w-4 text-gray-500" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">3,850,000 FCFA</div>
+                  <div className="text-2xl font-bold">{formatPrice(stats.totalSales)}</div>
                   <p className="text-xs text-green-500">+15.3% depuis le mois dernier</p>
                 </CardContent>
               </Card>
@@ -38,8 +48,10 @@ export default function AdminDashboardPage() {
                   <Package className="h-4 w-4 text-gray-500" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">124</div>
-                  <p className="text-xs text-green-500">+12.5% depuis le mois dernier</p>
+                  <div className="text-2xl font-bold">{stats.orders.total}</div>
+                  <p className="text-xs text-muted-foreground">
+                    {stats.orders.pending} en attente, {stats.orders.completed} complétées
+                  </p>
                 </CardContent>
               </Card>
 
@@ -49,7 +61,7 @@ export default function AdminDashboardPage() {
                   <Users className="h-4 w-4 text-gray-500" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">28</div>
+                  <div className="text-2xl font-bold">{stats.vendorCount}</div>
                   <p className="text-xs text-green-500">+3 nouveaux ce mois</p>
                 </CardContent>
               </Card>
@@ -60,8 +72,8 @@ export default function AdminDashboardPage() {
                   <Package className="h-4 w-4 text-gray-500" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">86</div>
-                  <p className="text-xs text-muted-foreground">32 en vente flash</p>
+                  <div className="text-2xl font-bold">{stats.productCount}</div>
+                  <p className="text-xs text-muted-foreground">Produits en vente</p>
                 </CardContent>
               </Card>
             </div>
@@ -73,7 +85,8 @@ export default function AdminDashboardPage() {
                   <CardTitle>Commandes Récentes</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <OrdersTable />
+                  {/* Placeholder for OrdersTable component */}
+                  <div className="p-4 text-center text-gray-500">Chargement des commandes récentes...</div>
                 </CardContent>
               </Card>
             </div>
@@ -85,7 +98,8 @@ export default function AdminDashboardPage() {
                   <CardTitle>Vendeurs Actifs</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <VendorsTable />
+                  {/* Placeholder for VendorsTable component */}
+                  <div className="p-4 text-center text-gray-500">Chargement des vendeurs actifs...</div>
                 </CardContent>
               </Card>
             </div>
