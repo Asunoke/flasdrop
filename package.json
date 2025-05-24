@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "vercel-build": "npm install --legacy-peer-deps && next build"
+  "vercel-build": "prisma generate && npm install --legacy-peer-deps && next build"
   },
   "dependencies": {
     "@auth/core": "^0.34.2",
