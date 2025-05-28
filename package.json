@@ -10,7 +10,7 @@
     "vercel-build": "prisma generate && npm install --legacy-peer-deps && next build"
   },
   "dependencies": {
-    "@auth/core": "^0.39.1",
+    
     "@hookform/resolvers": "latest",
     "@next-auth/prisma-adapter": "latest",
     "@prisma/client": "latest",
