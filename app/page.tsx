@@ -87,9 +87,11 @@ export default async function Home() {
                   réduction
                 </h3>
                 <p className="text-white/90 text-sm mb-6">Sur une sélection de smartphones</p>
+                
                 <Button className="bg-white text-red-600 hover:bg-gray-100 rounded-full px-6 py-2 font-medium">
                   Acheter
                 </Button>
+               
               </div>
             </div>
 
