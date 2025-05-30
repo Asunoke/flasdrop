@@ -7,11 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "vercel-build": "prisma generate && npm install --legacy-peer-deps && next build",
-     "postinstall": "tailwindcss init -p"
+    "vercel-build": "prisma generate && npm install --legacy-peer-deps && next build"
   },
   "dependencies": {
-    
     "@hookform/resolvers": "latest",
     "@next-auth/prisma-adapter": "latest",
     "@prisma/client": "latest",
