@@ -371,7 +371,7 @@ export default async function Home() {
                   Prêt à Découvrir les Meilleures Offres?
                 </h2>
                 <p className="max-w-[700px] text-gray-200 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Inscrivez-vous maintenant et recevez 5000 FCFA de réduction sur votre premier achat
+                  Inscrivez-vous maintenant et recevez 10% de réduction sur votre premier achat
                 </p>
               </div>
               <div className="w-full max-w-sm space-y-2">
