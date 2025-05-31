@@ -10,6 +10,7 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
+     domains: ['i.imgur.com'],
   },
   webpack(config) {
     config.resolve.alias['@'] = path.resolve('./');

@@ -49,19 +49,27 @@ export async function GET(req: Request) {
     }
 
     const products = await db.product.findMany({
-      where,
-      orderBy: {
-        createdAt: "desc",
+  where,
+  orderBy: {
+    createdAt: "desc",
+  },
+  select: {
+    id: true,
+    name: true,
+    price: true,
+    originalPrice: true,
+    image: true, // 🔥 Ici !
+    stock: true,
+    cashOnDelivery: true,
+    vendorId: true,
+    vendor: {
+      select: {
+        name: true,
+        phone: true,
       },
-      include: {
-        vendor: {
-          select: {
-            name: true,
-            phone: true,
-          },
-        },
-      },
-    })
+    },
+  },
+})
 
     return NextResponse.json(products)
   } catch (error) {
