@@ -48,8 +48,8 @@ export function Footer({ simplified = false }: FooterProps) {
               <h4 className="text-xl font-bold mb-4">Contact</h4>
               <ul className="space-y-2 text-gray-400">
                 <li>Bamako, Mali</li>
-                <li>contact@flashdropmarket.ml</li>
-                <li>+223 XX XX XX XX</li>
+                <li>flashdropmarket@gmail.com</li>
+                <li>+223 85 23 92 19</li>
               </ul>
             </div>
         
