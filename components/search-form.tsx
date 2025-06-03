@@ -74,7 +74,7 @@ export function SearchForm({ initialQuery = "", initialMinPrice, initialMaxPrice
             onChange={(e) => setMaxPrice(e.target.value)}
           />
         </div>
-        <Button type="submit" className="bg-[#FFCB2D] text-black hover:bg-[#e6b728]">
+        <Button type="submit" className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full text-lg font-medium shadow-lg">
           Filtrer
         </Button>
       </div>

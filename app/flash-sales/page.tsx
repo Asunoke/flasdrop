@@ -50,10 +50,10 @@ export default async function FlashSalesPage({
 
       <main className="flex-1">
         {/* Flash Sales Section */}
-        <section className="w-full py-12 md:py-16 lg:py-20 bg-[#F3F4F6]">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-900 text-white">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-start mb-8">
-              <Link href="/" className="flex items-center text-orange-600 mb-4">
+              <Link href="/" className="flex items-center text-purple-600 mb-4">
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Retour à l&apos;accueil
               </Link>
@@ -74,7 +74,7 @@ export default async function FlashSalesPage({
       </main>
 
       {/* Footer */}
-      <Footer simplified />
+      <Footer  />
     </div>
   )
 }
