@@ -13,7 +13,7 @@ import {
 
 export default function DashboardHeader() {
   return (
-    <header className="hidden w-64 flex-col bg-gray-900 text-white md:flex">
+    <header className="sticky top-0 z-30 flex h-14 items-center border-b bg-white px-4 md:px-6">
       <Button variant="ghost" size="icon" className="mr-2 md:hidden">
         <Menu className="h-5 w-5" />
         <span className="sr-only">Toggle Menu</span>
