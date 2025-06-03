@@ -71,12 +71,16 @@ export async function createProduct(formData: FormData) {
   }
 }
 
+// Product Actions - Version améliorée
 export async function updateProduct(productId: string, formData: FormData) {
   try {
     const user = await getCurrentUser()
 
     if (!user) {
-      throw new Error("Unauthorized")
+      return { 
+        success: false, 
+        error: "Non autorisé: utilisateur non connecté" 
+      }
     }
 
     const product = await db.product.findUnique({
@@ -84,42 +88,69 @@ export async function updateProduct(productId: string, formData: FormData) {
     })
 
     if (!product || (user.role !== "ADMIN" && product.vendorId !== user.id)) {
-      throw new Error("Unauthorized")
+      return { 
+        success: false, 
+        error: "Non autorisé: vous n'avez pas les droits nécessaires" 
+      }
     }
 
     const rawData = {
-      name: formData.get("name") as string,
-      description: formData.get("description") as string,
-      price: Number.parseFloat(formData.get("price") as string),
-      originalPrice: Number.parseFloat(formData.get("originalPrice") as string),
-      stock: Number.parseInt(formData.get("stock") as string),
-      image: formData.get("image") as string,
-      active: formData.get("active") === "on",
-      cashOnDelivery: formData.get("cashOnDelivery") === "on",
+      name: formData.get("name"),
+      description: formData.get("description"),
+      price: formData.get("price"),
+      originalPrice: formData.get("originalPrice"),
+      stock: formData.get("stock"),
+      image: formData.get("image"),
+      active: formData.get("active"),
+      cashOnDelivery: formData.get("cashOnDelivery"),
     }
 
-    const validatedData = ProductSchema.parse({
-      ...rawData,
-      vendorId: product.vendorId,
-    })
+    // Validation des données
+    if (!rawData.name || !rawData.description) {
+      return { 
+        success: false, 
+        error: "Le nom et la description sont obligatoires" 
+      }
+    }
 
-    await db.product.update({
+    const price = Number(rawData.price)
+    const originalPrice = Number(rawData.originalPrice)
+    const stock = Number(rawData.stock)
+
+    if (isNaN(price) || isNaN(originalPrice) || isNaN(stock)) {
+      return { 
+        success: false, 
+        error: "Les prix et le stock doivent être des nombres valides" 
+      }
+    }
+
+    // Mise à jour directe sans Zod pour plus de flexibilité
+    const updatedProduct = await db.product.update({
       where: { id: productId },
-      data: validatedData,
+      data: {
+        name: String(rawData.name),
+        description: String(rawData.description),
+        price,
+        originalPrice,
+        stock,
+        image: rawData.image ? String(rawData.image) : product.image,
+        active: rawData.active === "on",
+        cashOnDelivery: rawData.cashOnDelivery === "on",
+      },
     })
 
-    revalidatePath("/dashboard/products")
-    revalidatePath(`/dashboard/products/${productId}`)
-    revalidatePath("/flash-sales")
-    revalidatePath("/")
+    revalidatePaths()
 
-    return { success: true }
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return { success: false, error: error.errors }
+    return { 
+      success: true,
+      product: updatedProduct
     }
-
-    return { success: false, error: "Failed to update product" }
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour:", error)
+    return { 
+      success: false, 
+      error: error instanceof Error ? error.message : "Erreur serveur inconnue" 
+    }
   }
 }
 
@@ -128,7 +159,10 @@ export async function deleteProduct(productId: string) {
     const user = await getCurrentUser()
 
     if (!user) {
-      throw new Error("Unauthorized")
+      return { 
+        success: false, 
+        error: "Non autorisé: utilisateur non connecté" 
+      }
     }
 
     const product = await db.product.findUnique({
@@ -136,42 +170,33 @@ export async function deleteProduct(productId: string) {
     })
 
     if (!product || (user.role !== "ADMIN" && product.vendorId !== user.id)) {
-      throw new Error("Unauthorized")
+      return { 
+        success: false, 
+        error: "Non autorisé: vous n'avez pas les droits nécessaires" 
+      }
     }
 
     await db.product.delete({
       where: { id: productId },
     })
 
-    revalidatePath("/dashboard/products")
-    revalidatePath("/flash-sales")
-    revalidatePath("/")
+    revalidatePaths()
 
     return { success: true }
   } catch (error) {
-    return { success: false, error: "Failed to delete product" }
+    console.error("Erreur lors de la suppression:", error)
+    return { 
+      success: false, 
+      error: error instanceof Error ? error.message : "Erreur serveur inconnue" 
+    }
   }
 }
 
-export async function deleteAllProducts() {
-  try {
-    const user = await getCurrentUser()
-
-    if (!user || user.role !== "ADMIN") {
-      throw new Error("Unauthorized")
-    }
-
-    await db.product.deleteMany({})
-
-    revalidatePath("/admin/products")
-    revalidatePath("/dashboard/products")
-    revalidatePath("/flash-sales")
-    revalidatePath("/")
-
-    return { success: true }
-  } catch (error) {
-    return { success: false, error: "Failed to delete all products" }
-  }
+// Fonction helper pour revalider les chemins
+function revalidatePaths() {
+  revalidatePath("/dashboard/products")
+  revalidatePath("/flash-sales")
+  revalidatePath("/")
 }
 
 // Order Actions

@@ -134,7 +134,7 @@ export default function FlashSaleCard({
       </CardContent>
       <CardFooter className="p-4 pt-0">
         <Button
-          className="w-full bg-[#FFCB2D] text-black hover:bg-[#e6b728]"
+          className="w-full bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full text-lg font-medium shadow-lg"
           onClick={handleBuyNow}
           disabled={isLoading}
         >

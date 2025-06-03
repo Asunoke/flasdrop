@@ -31,13 +31,13 @@ export function AuthButtons() {
         {/* Version desktop */}
         <div className="hidden md:flex items-center gap-4">
           <Link href={dashboardLink}>
-            <Button variant="ghost" className="text-white hover:bg-white/10">
+            <Button variant="ghost" className="text-black hover:bg-white/10">
               Tableau de bord
             </Button>
           </Link>
           <Button
             variant="ghost"
-            className="text-white hover:bg-white/10"
+            className="text-black hover:bg-white/10"
             onClick={() => signOut({ callbackUrl: "/" })}
           >
             <LogOut className="mr-2 h-4 w-4" />
@@ -49,7 +49,7 @@ export function AuthButtons() {
         <div className="md:hidden">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="text-white hover:bg-white/10">
+              <Button variant="ghost" size="icon" className="text-black hover:bg-white/10">
                 <User className="h-5 w-5" />
               </Button>
             </DropdownMenuTrigger>
@@ -72,12 +72,12 @@ export function AuthButtons() {
       {/* Version desktop */}
       <div className="hidden md:flex items-center gap-4">
         <Link href="/login">
-          <Button variant="ghost" className="text-white hover:bg-white/10">
+          <Button variant="ghost" className="text-lg  transition-colors hover:text-primary">
             Se connecter
           </Button>
         </Link>
         <Link href="/register">
-          <Button className="bg-[#FFCB2D] text-black hover:bg-[#e6b728]">S'inscrire</Button>
+          <Button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full text-lg font-medium shadow-lg">S'inscrire</Button>
         </Link>
       </div>
 

@@ -6,8 +6,9 @@ import type { Metadata } from "next"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import FlashSaleCard from "@/components/flash-sale-card"
-import CountdownTimer from "@/components/countdown-timer"
+import CountdownTimer from "@/components/countdownTimer"
 import { Header } from "@/components/header"
+import { Badge } from "@/components/ui/badge"
 import { Footer } from "@/components/footer"
 import { getLatestProducts } from "@/lib/products"
 
@@ -28,42 +29,54 @@ export default async function Home() {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-orange-600 text-white">
-          <div className="container px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
-              <div className="flex flex-col justify-center space-y-4">
-                <div className="space-y-2">
-                  <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
-                    Le Mali vend en direct
-                  </h1>
-                  <p className="max-w-[600px] text-gray-200 md:text-xl">
-                    Découvrez des offres exclusives limitées dans le temps. Prix chocs, paiement mobile et livraison
-                    rapide.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Link href="/flash-sales">
-                    <Button className="bg-[#FFCB2D] text-black hover:bg-[#e6b728]">Acheter Maintenant</Button>
-                  </Link>
-                  <Link href="/program">
-                    <Button variant="outline" className="border-white text-black hover:bg-white/10">
-                      Devenir Vendeur
-                    </Button>
-                  </Link>
-                </div>
+        <section className="relative overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <Image src="/hero-bg.png" alt="Hero background" fill className="object-cover" priority />
+          <div className="absolute inset-0 bg-black/20"></div>
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center min-h-[500px] py-12">
+            {/* Left Content */}
+            <div className="space-y-6">
+              <Badge className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 text-sm font-medium">
+                Meilleurs prix
+              </Badge>
+
+              <div className="space-y-4">
+                <h1 className="text-4xl lg:text-5xl font-bold text-white leading-tight drop-shadow-lg">
+                  Prix imbattables
+                  <br />
+                  sur vos produits
+                  <br />
+                  préférés
+                </h1>
+
+                <p className="text-lg text-white/90 drop-shadow">Achetez plus pour moins cher</p>
               </div>
-              <div className="flex justify-center">
-                <Image
-                  src="/header1.webp?height=400&width=400"
-                  alt="FlashDrop Market"
-                  width={400}
-                  height={400}
-                  className="rounded-lg object-cover"
-                />
-              </div>
+
+             <Link href="/flash-sales">
+              <Button
+                size="lg"
+                className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full text-lg font-medium shadow-lg"
+              >
+                Acheter
+              </Button>
+              </Link>
+
+
+              <Link href="/program">
+                  <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3
+                   rounded-full text-lg font-bold shadow-lg">Devenir Vendeur</Button>
+                </Link>
             </div>
+
+            {/* Right Content - Empty for background image */}
+            <div className="hidden lg:block"></div>
           </div>
-        </section>
+        </div>
+      </section>
 
          <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -155,7 +168,7 @@ export default async function Home() {
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-900 text-sm">Livraison gratuite</h4>
-                  <p className="text-gray-500 text-xs">dès 50 € d'achat</p>
+                  <p className="text-gray-500 text-xs">dès le premier d'achat</p>
                 </div>
               </div>
 
@@ -207,7 +220,7 @@ export default async function Home() {
                 </p>
               </div>
               <div className="w-full max-w-sm">
-                <CountdownTimer endTime={Date.now() + 24 * 60 * 60 * 1000} />
+                <CountdownTimer />
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
@@ -235,7 +248,7 @@ export default async function Home() {
               )}
             </div>
             <div className="flex justify-center mt-8">
-              <Button className="bg-[#FFCB2D] text-black hover:bg-[#e6b728]" asChild>
+              <Button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full text-lg font-medium shadow-lg" asChild>
                 <Link href="/flash-sales">Voir Toutes les Ventes Flash</Link>
               </Button>
             </div>
@@ -247,7 +260,7 @@ export default async function Home() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Comment Ça Marche</h2>
+                <h2 className="text-3xl font-bold tracking-tight">Comment Ça Marche ?</h2>
                 <p className="max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   Simple, rapide et efficace - FlashDrop connecte vendeurs et acheteurs à travers tout le Mali
                 </p>
@@ -256,7 +269,7 @@ export default async function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
               <Card className="border-none shadow-lg">
                 <CardContent className="pt-6 flex flex-col items-center text-center">
-                  <div className="bg-orange-600 p-3 rounded-full mb-4">
+                  <div className="bg-purple-600 p-3 rounded-full mb-4">
                     <ShoppingBag className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold mb-2">Trouvez des Offres</h3>
@@ -267,7 +280,7 @@ export default async function Home() {
               </Card>
               <Card className="border-none shadow-lg">
                 <CardContent className="pt-6 flex flex-col items-center text-center">
-                  <div className="bg-orange-600 p-3 rounded-full mb-4">
+                  <div className="bg-purple-600 p-3 rounded-full mb-4">
                     <Smartphone className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold mb-2">Payez Facilement</h3>
@@ -278,7 +291,7 @@ export default async function Home() {
               </Card>
               <Card className="border-none shadow-lg">
                 <CardContent className="pt-6 flex flex-col items-center text-center">
-                  <div className="bg-orange-600 p-3 rounded-full mb-4">
+                  <div className="bg-purple-600 p-3 rounded-full mb-4">
                     <Truck className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold mb-2">Recevez Rapidement</h3>
@@ -290,9 +303,10 @@ export default async function Home() {
             </div>
           </div>
         </section>
+      
 
         {/* Benefits */}
-        <section className="w-full py-12 md:py-16 lg:py-20 bg-[#F3F4F6]">
+        <section className="w-full py-12 md:py-16 lg:py-20 bg-[#fff]">
           <div className="container px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
               <div className="flex justify-center">
@@ -313,7 +327,7 @@ export default async function Home() {
                 </div>
                 <ul className="grid gap-4">
                   <li className="flex items-start gap-4">
-                    <div className="bg-[#FFCB2D] p-1 rounded-full">
+                    <div className="bg-purple-600 p-1 rounded-full">
                       <Package className="h-5 w-5 text-black" />
                     </div>
                     <div className="space-y-1">
@@ -324,7 +338,7 @@ export default async function Home() {
                     </div>
                   </li>
                   <li className="flex items-start gap-4">
-                    <div className="bg-[#FFCB2D] p-1 rounded-full">
+                    <div className="bg-purple-600 p-1 rounded-full">
                       <Smartphone className="h-5 w-5 text-black" />
                     </div>
                     <div className="space-y-1">
@@ -335,7 +349,7 @@ export default async function Home() {
                     </div>
                   </li>
                   <li className="flex items-start gap-4">
-                    <div className="bg-[#FFCB2D] p-1 rounded-full">
+                    <div className="bg-purple-600 p-1 rounded-full">
                       <MapPin className="h-5 w-5 text-black" />
                     </div>
                     <div className="space-y-1">
@@ -346,7 +360,7 @@ export default async function Home() {
                     </div>
                   </li>
                   <li className="flex items-start gap-4">
-                    <div className="bg-[#FFCB2D] p-1 rounded-full">
+                    <div className="bg-purple-600 p-1 rounded-full">
                       <Clock className="h-5 w-5 text-black" />
                     </div>
                     <div className="space-y-1">
@@ -363,22 +377,22 @@ export default async function Home() {
         </section>
 
         {/* CTA Section */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-orange-600 text-white">
+        <section className="w-full  md:py-24 lg:py-32 bg-muted py-16">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                <h2 className="text-3xl font-bold tracking-tight">
                   Prêt à Découvrir les Meilleures Offres?
                 </h2>
-                <p className="max-w-[700px] text-gray-200 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                <p className="max-w-[700px] text-black md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                   Inscrivez-vous maintenant et recevez 10% de réduction sur votre premier achat
                 </p>
               </div>
               <div className="w-full max-w-sm space-y-2">
                 <Link href="/register">
-                  <Button className="w-full bg-[#FFCB2D] text-black hover:bg-[#e6b728]">Créer un Compte</Button>
+                  <Button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full text-lg font-medium shadow-lg">Créer un Compte</Button>
                 </Link>
-                <p className="text-sm text-gray-200">
+                <p className="text-sm text-black">
                   Déjà inscrit?{" "}
                   <Link href="/login" className="underline">
                     Se connecter

@@ -7,7 +7,7 @@ import { AuthButtons } from "@/components/auth-buttons"
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-orange-600 text-white">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2 text-xl font-bold">
           <ShoppingBag className="h-6 w-6" />
@@ -23,10 +23,10 @@ export function Header() {
           <Link href="#" className="text-sm font-medium hover:underline">
             Comment ça marche
           </Link>
-          <Link href="#" className="text-sm font-medium hover:underline">
-            Vendeurs
+          <Link href="/about" className="text-sm font-medium hover:underline">
+            À propos
           </Link>
-          <Link href="#" className="text-sm font-medium hover:underline">
+          <Link href="/contact" className="text-sm font-medium hover:underline">
             Contact
           </Link>
         </nav>

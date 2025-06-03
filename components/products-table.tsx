@@ -233,86 +233,99 @@ export default function ProductsTable() {
       setIsCreating(false)
     }
   }
+  const [isUpdating, setIsUpdating] = useState(false)
+const [isDeletingLoading, setIsDeletingLoading] = useState(false)
 
   // Handle update product
-  const handleUpdateProduct = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!currentProduct) return
-    setIsEditing(true)
+  // Handle update product - Version améliorée
+const handleUpdateProduct = async (e: React.FormEvent) => {
+  e.preventDefault()
+  if (!currentProduct) return
+  setIsUpdating(true)
 
-    try {
-      const formDataObj = new FormData()
-      formDataObj.append("name", formData.name)
-      formDataObj.append("description", formData.description)
-      formDataObj.append("price", formData.price)
-      formDataObj.append("originalPrice", formData.originalPrice)
-      formDataObj.append("stock", formData.stock)
-      formDataObj.append("image", formData.image)
-      formDataObj.append("active", formData.active ? "on" : "")
-      formDataObj.append("cashOnDelivery", formData.cashOnDelivery ? "on" : "")
+  try {
+    const formDataObj = new FormData()
+    formDataObj.append("name", formData.name)
+    formDataObj.append("description", formData.description)
+    formDataObj.append("price", formData.price)
+    formDataObj.append("originalPrice", formData.originalPrice)
+    formDataObj.append("stock", formData.stock)
+    formDataObj.append("image", formData.image)
+    formDataObj.append("active", formData.active ? "on" : "")
+    formDataObj.append("cashOnDelivery", formData.cashOnDelivery ? "on" : "")
 
-      const result = await updateProduct(currentProduct.id, formDataObj)
+    const result = await updateProduct(currentProduct.id, formDataObj)
 
-      if (result.success) {
-        toast({
-          title: "Succès",
-          description: "Le produit a été mis à jour avec succès",
-        })
-        setIsEditing(false)
-        router.refresh()
-      } else {
-        toast({
-          title: "Erreur",
-          description: "Impossible de mettre à jour le produit",
-          variant: "destructive",
-        })
-      }
-    } catch (error) {
-      console.error("Error updating product:", error)
-      toast({
-        title: "Erreur",
-        description: "Impossible de mettre à jour le produit",
-        variant: "destructive",
-      })
-    } finally {
-      setIsEditing(false)
+    if (!result.success) {
+      throw new Error(result.error || "Échec de la mise à jour")
     }
+
+    toast({
+      title: "Succès",
+      description: "Produit mis à jour avec succès",
+    })
+    
+    // Actualiser les données
+    router.refresh()
+    setIsEditing(false)
+  } catch (error) {
+  let errorMessage = "Erreur lors de la mise a jour"
+  
+  if (error instanceof Error) {
+    errorMessage = error.message
+  } else if (typeof error === 'string') {
+    errorMessage = error
   }
 
-  // Handle delete product
-  const handleDeleteProduct = async () => {
-    if (!currentProduct) return
-    setIsDeleting(true)
+  toast({
+    title: "Erreur",
+    description: errorMessage,
+    variant: "destructive",
+  })
 
-    try {
-      const result = await deleteProduct(currentProduct.id)
-
-      if (result.success) {
-        toast({
-          title: "Succès",
-          description: "Le produit a été supprimé avec succès",
-        })
-        setProducts(products.filter((p) => p.id !== currentProduct.id))
-        setIsDeleting(false)
-        router.refresh()
-      } else {
-        toast({
-          title: "Erreur",
-          description: "Impossible de supprimer le produit",
-          variant: "destructive",
-        })
-      }
-    } catch (error) {
-      console.error("Error deleting product:", error)
-      toast({
-        title: "Erreur",
-        description: "Impossible de supprimer le produit",
-        variant: "destructive",
-      })
-    } finally {
-      setIsDeleting(false)
-    }
+  } finally {
+    setIsUpdating(false)
   }
+}
+
+// Handle delete product - Version améliorée
+const handleDeleteProduct = async () => {
+  if (!currentProduct) return
+  setIsDeletingLoading(true)
+
+  try {
+    const result = await deleteProduct(currentProduct.id)
+
+    if (!result.success) {
+      throw new Error(result.error || "Échec de la suppression")
+    }
+
+    toast({
+      title: "Succès",
+      description: "Produit supprimé avec succès",
+    })
+    
+    // Actualiser les données
+    setProducts(products.filter(p => p.id !== currentProduct.id))
+    setIsDeleting(false)
+  } catch (error) {
+  let errorMessage = "Erreur lors de la suppression"
+  
+  if (error instanceof Error) {
+    errorMessage = error.message
+  } else if (typeof error === 'string') {
+    errorMessage = error
+  }
+
+  toast({
+    title: "Erreur",
+    description: errorMessage,
+    variant: "destructive",
+  })
+}finally {
+    setIsDeletingLoading(false)
+  }
+}
 
   if (isLoading) {
     return <div className="text-center py-8">Chargement des produits...</div>
@@ -665,9 +678,9 @@ export default function ProductsTable() {
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit" disabled={isEditing}>
-                {isEditing ? "Mise à jour en cours..." : "Mettre à jour"}
-              </Button>
+              <Button type="submit" disabled={isUpdating}>
+  {isUpdating ? "Mise à jour en cours..." : "Mettre à jour"}
+             </Button>
             </DialogFooter>
           </form>
         </DialogContent>
@@ -686,9 +699,9 @@ export default function ProductsTable() {
             <Button variant="outline" onClick={() => setIsDeleting(false)}>
               Annuler
             </Button>
-            <Button variant="destructive" onClick={handleDeleteProduct} disabled={isDeleting}>
-              {isDeleting ? "Suppression en cours..." : "Supprimer"}
-            </Button>
+            <Button variant="destructive" onClick={handleDeleteProduct} disabled={isDeletingLoading}>
+  {isDeletingLoading ? "Suppression en cours..." : "Supprimer"}
+           </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
