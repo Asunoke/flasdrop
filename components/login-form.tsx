@@ -115,7 +115,7 @@ export function LoginForm() {
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full bg-purple-600 text-black hover:bg-[#e6b728]" disabled={isLoading}>
+          <Button type="submit" className="w-full bg-purple-600 text-black hover:bg-purple-700" disabled={isLoading}>
             {isLoading ? "Connexion en cours..." : "Se connecter"}
           </Button>
         </form>

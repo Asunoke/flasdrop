@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   title: {
     default: "FlashDrop Market - Ventes Flash au Mali",
     template: "%s | FlashDrop Market",
+    
   },
   description:
     "Découvrez des offres exclusives limitées dans le temps. Prix chocs, paiement mobile et livraison rapide partout au Mali.",
@@ -82,7 +83,9 @@ export default function RootLayout({
   return (
     <html lang="fr" suppressHydrationWarning>
       <head />
+      
       <body className={inter.className}>
+        <link rel="icon" href="/favicon.ico" />
         <SessionProvider>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
             {children}

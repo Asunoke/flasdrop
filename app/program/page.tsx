@@ -74,7 +74,7 @@ export default function SellerProgramPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
               <Card className="border-none shadow-lg hover:shadow-xl transition-shadow">
                 <CardContent className="pt-6 flex flex-col items-center text-center">
-                  <div className="bg-orange-600 p-3 rounded-full mb-4">
+                  <div className="bg-purple-600 p-3 rounded-full mb-4">
                     <ShoppingBag className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold mb-2">Ventes Flash Organisées</h3>
@@ -85,7 +85,7 @@ export default function SellerProgramPage() {
               </Card>
               <Card className="border-none shadow-lg hover:shadow-xl transition-shadow">
                 <CardContent className="pt-6 flex flex-col items-center text-center">
-                  <div className="bg-orange-600 p-3 rounded-full mb-4">
+                  <div className="bg-purple-600 p-3 rounded-full mb-4">
                     <Smartphone className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold mb-2">Paiements Mobiles</h3>
@@ -96,7 +96,7 @@ export default function SellerProgramPage() {
               </Card>
               <Card className="border-none shadow-lg hover:shadow-xl transition-shadow">
                 <CardContent className="pt-6 flex flex-col items-center text-center">
-                  <div className="bg-orange-600 p-3 rounded-full mb-4">
+                  <div className="bg-purple-600 p-3 rounded-full mb-4">
                     <Truck className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold mb-2">Logistique Simplifiée</h3>
@@ -110,7 +110,7 @@ export default function SellerProgramPage() {
         </section>
 
         {/* Benefits Section */}
-        <section className="w-full py-12 bg-orange-50">
+        <section className="w-full py-12 bg-purple-50">
           <div className="container px-4 md:px-6">
             <h2 className="text-3xl font-bold text-center mb-12">💎 Avantages pour les Vendeurs</h2>
             <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -158,7 +158,7 @@ export default function SellerProgramPage() {
             </h3>
             <div className="grid md:grid-cols-2 gap-8">
               <div className="bg-white border border-gray-200 p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-                <h4 className="text-2xl font-bold text-orange-500 mb-2">Basic</h4>
+                <h4 className="text-2xl font-bold text-purple-500 mb-2">Basic</h4>
                 <p className="text-4xl font-bold mb-4">0 FCFA</p>
                 <p className="mb-6 text-gray-500">Commencez gratuitement</p>
                 <ul className="space-y-3 text-left mb-6">
@@ -175,17 +175,19 @@ export default function SellerProgramPage() {
                     <span>Commission : 10% par vente</span>
                   </li>
                 </ul>
+                 <Link href="https://wa.me/22385239219" target="_blank">
                 <Button variant="outline" className="w-full">
                   Commencer gratuitement
                 </Button>
+                </Link>
               </div>
-              <div className="bg-white border-2 border-orange-500 p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+              <div className="bg-white border-2 border-yellow-500 p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h4 className="text-2xl font-bold text-orange-700 mb-2">Premium</h4>
+                    <h4 className="text-2xl font-bold text-purple-700 mb-2">Premium</h4>
                     <p className="text-4xl font-bold mb-4">10 000 FCFA<span className="text-sm font-normal">/mois</span></p>
                   </div>
-                  <span className="bg-orange-100 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                  <span className="bg-orange-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded">
                     POPULAIRE
                   </span>
                 </div>
@@ -212,9 +214,11 @@ export default function SellerProgramPage() {
                     <span>Conseiller dédié</span>
                   </li>
                 </ul>
-                <Button className="w-full bg-orange-600 hover:bg-orange-700">
+                 <Link href="https://wa.me/22385239219" target="_blank">
+                <Button className="w-full bg-purple-600 hover:bg-purple-700">
                   Choisir Premium
                 </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -245,7 +249,7 @@ export default function SellerProgramPage() {
                 <Card key={index} className="border-none shadow-sm">
                   <CardContent className="p-6">
                     <div className="flex items-center space-x-4 mb-4">
-                      <div className="bg-orange-100 text-orange-600 h-10 w-10 rounded-full flex items-center justify-center font-bold">
+                      <div className="bg-purple-600 text-black h-10 w-10 rounded-full flex items-center justify-center font-bold">
                         {testimonial.name.charAt(0)}
                       </div>
                       <div>
@@ -269,18 +273,14 @@ export default function SellerProgramPage() {
               Rejoignez dès maintenant la communauté des vendeurs FlashDrop et profitez de notre plateforme en croissance rapide.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link href="/register-seller">
+              <Link href="https://wa.me/22385239219" target="_blank">
                 <Button className="bg-white text-black hover:bg-gray-100 px-8 py-4 text-lg font-semibold">
                   S'inscrire Maintenant
                 </Button>
               </Link>
-              <Link href="https://wa.me/22385239219" target="_blank">
-                <Button variant="outline" className="border-white text-white hover:bg-white/10 px-8 py-4 text-lg font-semibold">
-                  Nous Contacter
-                </Button>
-              </Link>
+              
             </div>
-            <p className="text-center text-orange-200 mt-6 text-sm">
+            <p className="text-center text-purple-900 mt-6 text-sm">
               Déjà plus de 120 vendeurs nous ont rejoints !
             </p>
           </div>

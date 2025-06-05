@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { ShoppingBag } from "lucide-react"
+// DashboardHeader
 
 import { AuthButtons } from "@/components/auth-buttons"
 
@@ -10,7 +10,7 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2 text-xl font-bold">
-          <ShoppingBag className="h-6 w-6" />
+          
           <span>FlashDrop Market</span>
         </Link>
         <nav className="hidden md:flex gap-6">

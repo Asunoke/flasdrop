@@ -17,6 +17,7 @@ export const metadata: Metadata = {
   description:
     "Découvrez des offres exclusives limitées dans le temps. Prix chocs, paiement mobile et livraison rapide partout au Mali.",
   keywords: ["ventes flash", "e-commerce", "Mali", "achats en ligne", "promotions", "réductions"],
+  
 }
 
 export default async function Home() {
@@ -24,6 +25,7 @@ export default async function Home() {
 
   return (
     <div className="flex min-h-screen flex-col">
+       
       {/* Header */}
       <Header />
 
@@ -101,10 +103,11 @@ export default async function Home() {
                 </h3>
                 <p className="text-white/90 text-sm mb-6">Sur une sélection de smartphones</p>
                 
-                <Button className="bg-white text-red-600 hover:bg-gray-100 rounded-full px-6 py-2 font-medium">
+                 <Link href="/flash-sales" >
+                <Button className="bg-white text-purple-600 hover:bg-gray-100 rounded-full px-6 py-2 font-medium">
                   Acheter
                 </Button>
-               
+                </Link>
               </div>
             </div>
 
@@ -129,9 +132,11 @@ export default async function Home() {
                   partout
                 </h3>
                 <p className="text-white/90 text-sm mb-6">Meilleures marques de casques</p>
+                 <Link href="/flash-sales" >
                 <Button className="bg-white text-purple-600 hover:bg-gray-100 rounded-full px-6 py-2 font-medium">
                   Acheter
                 </Button>
+                </Link>
               </div>
             </div>
           </div>
