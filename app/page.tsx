@@ -333,7 +333,7 @@ export default async function Home() {
                 <ul className="grid gap-4">
                   <li className="flex items-start gap-4">
                     <div className="bg-purple-600 p-1 rounded-full">
-                      <Package className="h-5 w-5 text-black" />
+                      <Package className="h-5 w-5 text-white" />
                     </div>
                     <div className="space-y-1">
                       <h3 className="font-medium">Produits Exclusifs</h3>
@@ -344,7 +344,7 @@ export default async function Home() {
                   </li>
                   <li className="flex items-start gap-4">
                     <div className="bg-purple-600 p-1 rounded-full">
-                      <Smartphone className="h-5 w-5 text-black" />
+                      <Smartphone className="h-5 w-5 text-white" />
                     </div>
                     <div className="space-y-1">
                       <h3 className="font-medium">Paiement Mobile Intégré</h3>
@@ -355,7 +355,7 @@ export default async function Home() {
                   </li>
                   <li className="flex items-start gap-4">
                     <div className="bg-purple-600 p-1 rounded-full">
-                      <MapPin className="h-5 w-5 text-black" />
+                      <MapPin className="h-5 w-5 text-white" />
                     </div>
                     <div className="space-y-1">
                       <h3 className="font-medium">Livraison Partout au Mali</h3>
@@ -366,7 +366,7 @@ export default async function Home() {
                   </li>
                   <li className="flex items-start gap-4">
                     <div className="bg-purple-600 p-1 rounded-full">
-                      <Clock className="h-5 w-5 text-black" />
+                      <Clock className="h-5 w-5 text-white" />
                     </div>
                     <div className="space-y-1">
                       <h3 className="font-medium">Paiement à la Livraison</h3>
