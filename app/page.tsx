@@ -58,7 +58,7 @@ export default async function Home() {
                 <p className="text-lg text-white/90 drop-shadow">Achetez plus pour moins cher</p>
               </div>
 
-             <Link href="/flash-sales">
+             <Link href="/flash-sales" className="mr-4">
               <Button
                 size="lg"
                 className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full text-lg font-medium shadow-lg"
