@@ -34,8 +34,8 @@ Elle gère la recherche de produits, l’accès aux produits d’un vendeur, ain
 
 1. Cloner le repo  
    ```bash
-   git clone https://github.com/asunoke/flasdrop-api.git
-   cd flasdrop-api
+   git clone https://github.com/asunoke/flasdrop.git
+   cd flasdrop
 Installer les dépendances
 
 
