@@ -34,7 +34,7 @@ export default async function Home() {
         <section className="relative overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0">
-          <Image src="/hero-bg.png" alt="Hero background" fill className="object-cover" priority />
+          <Image src="/hero-bg.webp" alt="Hero background" fill className="object-cover" priority />
           <div className="absolute inset-0 bg-black/20"></div>
         </div>
 
@@ -316,7 +316,7 @@ export default async function Home() {
             <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
               <div className="flex justify-center">
                 <Image
-                  src="/fdone.png?height=400&width=400"
+                  src="/fdm.webp?height=400&width=400"
                   alt="Avantages FlashDrop"
                   width={400}
                   height={400}
