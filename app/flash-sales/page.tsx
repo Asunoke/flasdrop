@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Ventes Flash | FlashDrop Market",
   description:
     "Découvrez toutes nos ventes flash avec des réductions importantes. Profitez de prix imbattables sur une large gamme de produits.",
-  keywords: "ventes flash, promotions, réductions, Mali, e-commerce, achats en ligne",
+  keywords: "ventes flash, promotions, réductions, Mali, e-commerce, achats en ligne, flashdrop market",
   openGraph: {
     title: "Ventes Flash | FlashDrop Market",
     description: "Découvrez toutes nos ventes flash avec des réductions importantes",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Ventes Flash | FlashDrop Market",
     description: "Découvrez toutes nos ventes flash avec des réductions importantes",
-    images: ["https://flashdrop.ml/og-image.jpg"],
+    images: ["https://flashdrop.vercel.app/cta-image.webp"],
   },
 }
 

@@ -50,7 +50,7 @@ export function SearchForm({ initialQuery = "", initialMinPrice, initialMaxPrice
         <Input
           type="search"
           placeholder="Rechercher par nom..."
-          className="pl-8 bg-white"
+          className="pl-8 bg-white text-black"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
@@ -60,7 +60,7 @@ export function SearchForm({ initialQuery = "", initialMinPrice, initialMaxPrice
           <Input
             type="number"
             placeholder="Prix min (FCFA)"
-            className="bg-white"
+            className="bg-white text-black"
             value={minPrice}
             onChange={(e) => setMinPrice(e.target.value)}
           />
@@ -69,7 +69,7 @@ export function SearchForm({ initialQuery = "", initialMinPrice, initialMaxPrice
           <Input
             type="number"
             placeholder="Prix max (FCFA)"
-            className="bg-white"
+            className="bg-white text-black"
             value={maxPrice}
             onChange={(e) => setMaxPrice(e.target.value)}
           />

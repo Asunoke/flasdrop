@@ -1,12 +1,11 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { ShoppingCart, Clock, Star, ChevronLeft } from "lucide-react";
+import { ShoppingCart, Clock, Star, ChevronLeft, CheckCircle } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
+import { Header } from "@/components/header";
 import { formatPrice, calculateDiscount } from "@/lib/utils";
 import { db } from "@/lib/db"; // Import Prisma client
 
@@ -22,7 +21,7 @@ interface Product {
   description: string;
 }
 
-// Corrected getProduct function with Prisma
+// Function to fetch a product from the database
 async function getProduct(id: string): Promise<Product | null> {
   try {
     const product = await db.product.findUnique({
@@ -38,11 +37,11 @@ async function getProduct(id: string): Promise<Product | null> {
     // Transform the Prisma product to match your Product interface
     const transformedProduct: Product = {
       id: product.id,
-      title: product.name, // Use 'name' instead of 'title'
-      price: product.price, // No toNumber() needed
-      originalPrice: product.originalPrice, // No toNumber() needed
-      image: product.image ?? "/placeholder.svg", // Handle null image
-      remaining: product.stock, // Use 'stock' instead of 'remaining'
+      title: product.name,
+      price: product.price,
+      originalPrice: product.originalPrice,
+      image: product.image ?? "/placeholder.svg",
+      remaining: product.stock,
       cashOnDelivery: product.cashOnDelivery,
       vendorId: product.vendorId,
       description: product.description,
@@ -55,24 +54,25 @@ async function getProduct(id: string): Promise<Product | null> {
   }
 }
 
+// Function to fetch similar products from the database
 async function getSimilarProducts(vendorId: string, productId: string): Promise<Product[]> {
   try {
     const similarProducts = await db.product.findMany({
       where: {
         vendorId: vendorId,
-        id: { not: productId }, // Exclude the current product
+        id: { not: productId },
       },
-      take: 4, // Limit to 4 similar products
+      take: 4,
     });
 
     // Transform the Prisma products to match your Product interface
     const transformedProducts: Product[] = similarProducts.map((product) => ({
       id: product.id,
-      title: product.name, // Use 'name' instead of 'title'
-      price: product.price, // No toNumber() needed
-      originalPrice: product.originalPrice, // No toNumber() needed
-      image: product.image ?? "/placeholder.svg", // Handle null image
-      remaining: product.stock, // Use 'stock' instead of 'remaining'
+      title: product.name,
+      price: product.price,
+      originalPrice: product.originalPrice,
+      image: product.image ?? "/placeholder.svg",
+      remaining: product.stock,
       cashOnDelivery: product.cashOnDelivery,
       vendorId: product.vendorId,
       description: product.description,
@@ -103,15 +103,15 @@ export default async function ProductDetailPage({
 
   return (
     <div className="container mx-auto px-4 py-8">
-        <Header />
-      <Link href="/flash-sales" className="flex items-center text-sm mb-4">
+      <Header />
+      <Link href="/flash-sales" className="flex items-center text-sm mb-4 text-blue-600 hover:underline">
         <ChevronLeft className="h-4 w-4 mr-1" />
         Retour aux produits
       </Link>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Galerie d'images */}
-        <div className="relative aspect-square overflow-hidden rounded-lg">
+        {/* Image Gallery */}
+        <div className="relative aspect-square overflow-hidden rounded-lg shadow-lg">
           <Image
             src={product.image || "/placeholder.svg"}
             alt={product.title}
@@ -124,20 +124,19 @@ export default async function ProductDetailPage({
           </Badge>
         </div>
 
-        {/* Détails du produit */}
+        {/* Product Details */}
         <div>
-          <h1 className="text-2xl font-bold mb-2">{product.title}</h1>
+          <h1 className="text-3xl font-bold mb-2">{product.title}</h1>
 
           <div className="flex items-center mb-4">
             <div className="flex items-center mr-4">
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`h-4 w-4 ${i < fakeRating ? "text-yellow-500" : "text-gray-300"
-                    }`}
+                  className={`h-5 w-5 ${i < fakeRating ? "text-yellow-500" : "text-gray-300"}`}
                 />
               ))}
-              <span className="ml-1 text-sm">({fakeRating.toFixed(1)})</span> {/* Display fake rating */}
+              <span className="ml-2 text-sm text-gray-600">({fakeRating.toFixed(1)})</span>
             </div>
             <div className="flex items-center text-orange-600">
               <Clock className="h-4 w-4 mr-1" />
@@ -162,7 +161,7 @@ export default async function ProductDetailPage({
 
           <Button
             className="w-full bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full text-lg font-medium shadow-lg"
-            // onClick={handleBuyNow} // À implémenter comme dans FlashSaleCard
+            // onClick={handleBuyNow} // To be implemented
           >
             <ShoppingCart className="h-4 w-4 mr-2" />
             Acheter Maintenant
@@ -170,7 +169,31 @@ export default async function ProductDetailPage({
         </div>
       </div>
 
-      {/* Section produits similaires */}
+      {/* Call-to-Action Section */}
+      <section className="mt-12 bg-gray-100 p-6 rounded-lg shadow-md flex items-center">
+        <div className="flex-1">
+          <h2 className="text-xl font-bold mb-2">Ne manquez pas cette offre incroyable!</h2>
+          <p className="text-gray-700 mb-4">
+            Profitez de notre offre exclusive et achetez maintenant pour bénéficier d'une réduction de {discount}%!
+          </p>
+          <Link href="/flash-sales">
+          <Button className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-full">
+            <CheckCircle className="h-4 w-4 mr-2" />
+            Acheter Maintenant
+          </Button>
+          </Link>
+        </div>
+        <div className="relative w-32 h-32 ml-4">
+          <Image
+            src="/cta-image.webp" // Replace with your CTA image
+            alt="Offre spéciale"
+            fill
+            className="object-cover rounded-lg"
+          />
+        </div>
+      </section>
+
+      {/* Similar Products Section */}
       <section className="mt-12">
         <h2 className="text-xl font-bold mb-4">Produits similaires</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -195,9 +218,7 @@ export default async function ProductDetailPage({
             </Link>
           ))}
         </div>
-        
       </section>
-      <Footer  />
     </div>
   );
 }

@@ -26,21 +26,21 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://flashdrop.ml"),
+  metadataBase: new URL("https://flashdrop.vercel.app"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
     type: "website",
     locale: "fr_FR",
-    url: "https://flashdrop.ml",
+    url: "https://flashdrop.vercel.app",
     title: "FlashDrop Market - Ventes Flash au Mali",
     description:
       "Découvrez des offres exclusives limitées dans le temps. Prix chocs, paiement mobile et livraison rapide partout au Mali.",
     siteName: "FlashDrop Market",
     images: [
       {
-        url: "https://flashdrop.ml/og-image.jpg",
+        url: "https://flashdrop.vercel.app/cta-image.webp",
         width: 1200,
         height: 630,
         alt: "FlashDrop Market",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     title: "FlashDrop Market - Ventes Flash au Mali",
     description:
       "Découvrez des offres exclusives limitées dans le temps. Prix chocs, paiement mobile et livraison rapide partout au Mali.",
-    images: ["https://flashdrop.ml/og-image.jpg"],
+    images: ["https://flashdrop.vercel.app/cta-image.webp"],
     creator: "@flashdrop",
   },
   robots: {
