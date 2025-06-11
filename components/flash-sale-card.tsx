@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/hooks/use-toast"
 import { createOrder, trackProductView } from "@/lib/actions"
 import { formatPrice, calculateDiscount } from "@/lib/utils"
+import { ProductDetailButton } from "@/components/productdetailbouton"
 
 interface FlashSaleCardProps {
   id: string
@@ -141,6 +142,7 @@ export default function FlashSaleCard({
           <ShoppingCart className="h-4 w-4 mr-2" />
           {isLoading ? "Traitement..." : "Acheter Maintenant"}
         </Button>
+          <ProductDetailButton productId={id} />
       </CardFooter>
     </Card>
   )
