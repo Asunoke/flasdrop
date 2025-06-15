@@ -158,14 +158,15 @@ export default async function ProductDetailPage({
           )}
 
           <p className="mb-6 text-gray-700">{product.description}</p>
-
+         <Link href="/flash-sales">
           <Button
             className="w-full bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full text-lg font-medium shadow-lg"
             // onClick={handleBuyNow} // To be implemented
           >
             <ShoppingCart className="h-4 w-4 mr-2" />
-            Acheter Maintenant
+            voirs 
           </Button>
+          </Link>
         </div>
       </div>
 

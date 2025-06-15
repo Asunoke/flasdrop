@@ -64,7 +64,7 @@ export default function SellerProgramPage() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                  🎯 Fonctionnalités de la Version 1
+                  🎯 Fonctionnalités de la Version 2.4
                 </h2>
                 <p className="max-w-[700px] text-gray-500 md:text-xl">
                   Simple, rapide et efficace - FlashDrop connecte vendeurs et acheteurs à travers tout le Mali
@@ -141,8 +141,8 @@ export default function SellerProgramPage() {
                 <div className="flex items-start space-x-4">
                   <Check className="h-6 w-6 text-orange-600 mt-1 flex-shrink-0" />
                   <div>
-                    <h3 className="text-lg font-semibold">Sans Frais Initiaux</h3>
-                    <p className="text-gray-600">Commencez gratuitement, payez seulement sur les ventes réalisées</p>
+                    <h3 className="text-lg font-semibold">Inscription a 2500</h3>
+                    <p className="text-gray-600">Commencez maintenant, payez seulement sur les ventes réalisées</p>
                   </div>
                 </div>
               </div>
@@ -160,7 +160,7 @@ export default function SellerProgramPage() {
               <div className="bg-white border border-gray-200 p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
                 <h4 className="text-2xl font-bold text-purple-500 mb-2">Basic</h4>
                 <p className="text-4xl font-bold mb-4">0 FCFA</p>
-                <p className="mb-6 text-gray-500">Commencez gratuitement</p>
+                <p className="mb-6 text-gray-500">Commencez gratuitement et payez les frais d'inscription</p>
                 <ul className="space-y-3 text-left mb-6">
                   <li className="flex items-center">
                     <Check className="h-5 w-5 text-green-500 mr-2" />
