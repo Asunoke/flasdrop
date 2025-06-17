@@ -50,7 +50,7 @@ export function AuthButtons() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="text-black hover:bg-white/10">
-                <User className="h-5 w-5" />
+                <User className="h-6 w-6 text-black" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -86,7 +86,7 @@ export function AuthButtons() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="text-white hover:bg-white/10">
-              <User className="h-5 w-5" />
+              <User className="h-5 w-5 text-black" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
