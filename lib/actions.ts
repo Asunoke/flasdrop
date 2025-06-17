@@ -11,7 +11,6 @@ import { ProductSchema, OrderSchema } from "@/lib/validations"
 import { generateOrderId } from "@/lib/utils"
 
 // Product Actions
-// Modifier la fonction createProduct pour supprimer viewCount
 export async function createProduct(formData: FormData) {
   try {
     const user = await getCurrentUser()
@@ -32,7 +31,6 @@ export async function createProduct(formData: FormData) {
       vendorId: user.id,
     }
 
-    // Vérifier que les valeurs numériques sont valides
     if (isNaN(rawData.price) || isNaN(rawData.originalPrice) || isNaN(rawData.stock)) {
       return {
         success: false,
@@ -40,7 +38,6 @@ export async function createProduct(formData: FormData) {
       }
     }
 
-    // Créer le produit directement sans passer par le validateur
     const product = await db.product.create({
       data: {
         name: rawData.name,
@@ -52,7 +49,6 @@ export async function createProduct(formData: FormData) {
         active: rawData.active,
         cashOnDelivery: rawData.cashOnDelivery,
         vendorId: rawData.vendorId,
-        // Ne pas inclure viewCount ici
       },
     })
 
@@ -71,7 +67,6 @@ export async function createProduct(formData: FormData) {
   }
 }
 
-// Product Actions - Version améliorée
 export async function updateProduct(productId: string, formData: FormData) {
   try {
     const user = await getCurrentUser()
@@ -105,7 +100,6 @@ export async function updateProduct(productId: string, formData: FormData) {
       cashOnDelivery: formData.get("cashOnDelivery"),
     }
 
-    // Validation des données
     if (!rawData.name || !rawData.description) {
       return { 
         success: false, 
@@ -124,7 +118,6 @@ export async function updateProduct(productId: string, formData: FormData) {
       }
     }
 
-    // Mise à jour directe sans Zod pour plus de flexibilité
     const updatedProduct = await db.product.update({
       where: { id: productId },
       data: {
@@ -192,14 +185,13 @@ export async function deleteProduct(productId: string) {
   }
 }
 
-// Fonction helper pour revalider les chemins
 function revalidatePaths() {
   revalidatePath("/dashboard/products")
   revalidatePath("/flash-sales")
   revalidatePath("/")
 }
 
-// Order Actions
+// Order Actions - Version corrigée
 export async function createOrder(data: {
   productId: string
   productName: string
@@ -210,10 +202,23 @@ export async function createOrder(data: {
 }) {
   try {
     const user = await getCurrentUser()
-
-    // Generate a unique order ID with prefix ORD-
     const orderId = generateOrderId()
 
+    // Vérification du stock avant création
+    const product = await db.product.findUnique({
+      where: { id: data.productId },
+      select: { stock: true }
+    })
+
+    if (!product) {
+      return { success: false, error: "Produit non trouvé" }
+    }
+
+    if (product.stock < 1) {
+      return { success: false, error: "Stock épuisé" }
+    }
+
+    // Validation des données
     const validatedData = OrderSchema.parse({
       id: orderId,
       productId: data.productId,
@@ -223,44 +228,53 @@ export async function createOrder(data: {
       totalPrice: data.totalPrice,
       status: "PENDING",
       vendorId: data.vendorId,
-      userId: user?.id, // Optional: link to user if logged in
+      userId: user?.id,
     })
 
-    const order = await db.order.create({
-      data: validatedData,
-    })
+    // Transaction pour garantir l'intégrité des données
+    const [order] = await db.$transaction([
+      db.order.create({ data: validatedData }),
+      db.product.update({
+        where: { id: data.productId },
+        data: { stock: { decrement: 1 } },
+      }),
+      db.vendor.update({
+        where: { id: data.vendorId },
+        data: { totalSales: { increment: data.totalPrice } },
+      }),
+    ])
 
-    // Update product stock
-    await db.product.update({
-      where: { id: data.productId },
-      data: {
-        stock: {
-          decrement: 1,
-        },
-      },
-    })
+    // Revalidation des chemins
+    const pathsToRevalidate = [
+      "/admin/orders",
+      "/dashboard/orders",
+      "/flash-sales",
+      "/",
+      "/dashboard",
+      "/admin"
+    ]
+    
+    pathsToRevalidate.forEach(path => revalidatePath(path))
 
-    // Update vendor stats
-    await db.vendor.update({
-      where: { id: data.vendorId },
-      data: {
-        totalSales: {
-          increment: data.totalPrice,
-        },
-      },
-    })
-
-    revalidatePath("/admin/orders")
-    revalidatePath("/dashboard/orders")
-    revalidatePath("/flash-sales")
-    revalidatePath("/")
-    revalidatePath("/dashboard")
-    revalidatePath("/admin")
-
-    return order
+    return { 
+      success: true, 
+      order,
+      message: "Commande créée avec succès" 
+    }
   } catch (error) {
-    console.error("Error creating order:", error)
-    throw new Error("Failed to create order")
+    console.error("Erreur lors de la création de la commande:", error)
+    
+    let errorMessage = "Échec de la création de la commande"
+    if (error instanceof z.ZodError) {
+      errorMessage = "Données de commande invalides"
+    } else if (error instanceof Error) {
+      errorMessage = error.message
+    }
+
+    return { 
+      success: false, 
+      error: errorMessage 
+    }
   }
 }
 
@@ -269,28 +283,26 @@ export async function updateOrderStatus(orderId: string, status: string) {
     const user = await getCurrentUser()
 
     if (!user || user.role !== "ADMIN") {
-      throw new Error("Unauthorized")
+      return { success: false, error: "Non autorisé" }
+    }
+
+    const validStatuses = ["PENDING", "PROCESSING", "COMPLETED", "CANCELLED"]
+    if (!validStatuses.includes(status)) {
+      return { success: false, error: "Statut invalide" }
     }
 
     const order = await db.order.update({
-      where: { id: orderId },
-      data: {
-        status: status as any, // Utilisons un type casting temporaire
-      },
-      include: {
-        vendor: true,
-      },
-    })
+  where: { id: orderId },
+  data: { 
+    status: status as "PENDING" | "PROCESSING" | "COMPLETED" | "CANCELLED"
+  },
+  include: { vendor: true },
+})
 
-    // Update vendor stats based on order status
     if (status === "COMPLETED") {
       await db.vendor.update({
         where: { id: order.vendorId },
-        data: {
-          completedOrders: {
-            increment: 1,
-          },
-        },
+        data: { completedOrders: { increment: 1 } },
       })
     }
 
@@ -302,7 +314,11 @@ export async function updateOrderStatus(orderId: string, status: string) {
 
     return { success: true }
   } catch (error) {
-    return { success: false, error: "Failed to update order status" }
+    console.error("Erreur lors de la mise à jour du statut:", error)
+    return { 
+      success: false, 
+      error: error instanceof Error ? error.message : "Erreur serveur" 
+    }
   }
 }
 
@@ -315,19 +331,13 @@ export async function register(formData: FormData) {
     const phone = formData.get("phone") as string
     const role = (formData.get("role") as string) || "USER"
 
-    // Check if user already exists
-    const existingUser = await db.user.findUnique({
-      where: { email },
-    })
-
+    const existingUser = await db.user.findUnique({ where: { email } })
     if (existingUser) {
-      return { success: false, error: "Email already in use" }
+      return { success: false, error: "Email déjà utilisé" }
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10)
 
-    // Create user
     const user = await db.user.create({
       data: {
         name,
@@ -338,7 +348,6 @@ export async function register(formData: FormData) {
       },
     })
 
-    // If user is a vendor, create vendor profile
     if (role === "VENDOR") {
       await db.vendor.create({
         data: {
@@ -352,40 +361,35 @@ export async function register(formData: FormData) {
       })
     }
 
-    // Redirect to login page
     redirect("/login")
   } catch (error) {
-    return { success: false, error: "inscription reussie" }
+    console.error("Erreur lors de l'inscription:", error)
+    return { 
+      success: false, 
+      error: "Erreur lors de l'inscription" 
+    }
   }
 }
 
-// Dashboard Stats
 export async function getVendorStats(vendorId: string) {
   try {
-    // Get vendor
-    const vendor = await db.vendor.findUnique({
-      where: { id: vendorId },
-    })
-
+    const vendor = await db.vendor.findUnique({ where: { id: vendorId } })
     if (!vendor) {
-      throw new Error("Vendor not found")
+      return {
+        success: false,
+        error: "Vendeur non trouvé",
+        stats: null
+      }
     }
 
-    // Get product count
-    const productCount = await db.product.count({
-      where: { vendorId },
-    })
+    const productCount = await db.product.count({ where: { vendorId } })
 
-    // Get order counts
     const orderCounts = await db.order.groupBy({
       by: ["status"],
       where: { vendorId },
-      _count: {
-        id: true,
-      },
+      _count: { id: true },
     })
 
-    // Format the order counts
     const orders = {
       total: 0,
       pending: 0,
@@ -400,63 +404,43 @@ export async function getVendorStats(vendorId: string) {
       orders.total += item._count.id
     })
 
-    // Get recent orders
     const recentOrders = await db.order.findMany({
       where: { vendorId },
       orderBy: { createdAt: "desc" },
       take: 5,
       include: {
-        user: {
-          select: {
-            name: true,
-            phone: true,
-          },
-        },
+        user: { select: { name: true, phone: true } },
       },
     })
 
     return {
-      totalSales: vendor.totalSales,
-      completedOrders: vendor.completedOrders,
-      productCount,
-      orders,
-      recentOrders,
+      success: true,
+      stats: {
+        totalSales: vendor.totalSales,
+        completedOrders: vendor.completedOrders,
+        productCount,
+        orders,
+        recentOrders,
+      }
     }
   } catch (error) {
-    console.error("Error fetching vendor stats:", error)
+    console.error("Erreur lors de la récupération des stats:", error)
     return {
-      totalSales: 0,
-      completedOrders: 0,
-      productCount: 0,
-      orders: {
-        total: 0,
-        pending: 0,
-        processing: 0,
-        completed: 0,
-        cancelled: 0,
-      },
-      recentOrders: [],
+      success: false,
+      error: "Erreur serveur",
+      stats: null
     }
   }
 }
 
-// Product Interaction
-// Modifier la fonction trackProductView pour utiliser une approche différente
 export async function trackProductView(productId: string) {
   try {
-    // Récupérer le produit actuel
-    const product = await db.product.findUnique({
-      where: { id: productId },
-    })
-
-    if (!product) {
-      return { success: false, error: "Product not found" }
-    }
-
-    // Ne pas utiliser viewCount pour le moment
-    return { success: true }
+    const product = await db.product.findUnique({ where: { id: productId } })
+    return product 
+      ? { success: true } 
+      : { success: false, error: "Produit non trouvé" }
   } catch (error) {
-    console.error("Error tracking product view:", error)
-    return { success: false }
+    console.error("Erreur de suivi de vue:", error)
+    return { success: false, error: "Erreur serveur" }
   }
 }
