@@ -1,5 +1,4 @@
-import Link from "next/link"
-import { ShoppingBag } from "lucide-react"
+
 
 interface FooterProps {
   simplified?: boolean
@@ -49,7 +48,7 @@ export function Footer({ simplified = false }: FooterProps) {
               <ul className="space-y-2 text-gray-400">
                 <li>Bamako, Mali</li>
                 <li>flashdropmarket@gmail.com</li>
-                <li>+223 85 23 92 19</li>
+                <li>+223 91 97 30 41</li>
               </ul>
             </div>
         

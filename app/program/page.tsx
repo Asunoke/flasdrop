@@ -35,7 +35,7 @@ export default function SellerProgramPage() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Link href="https://wa.me/22385239219" target="_blank">
+                  <Link href="https://wa.me/22391973041" target="_blank">
                     <Button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full text-lg font-medium shadow-lg">
                       <Smartphone className="mr-2 h-4 w-4" />
                       Contacter sur WhatsApp

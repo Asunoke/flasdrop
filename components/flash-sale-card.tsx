@@ -50,7 +50,7 @@ export default function FlashSaleCard({
   const handleBuyNow = async () => {
     try {
       setIsLoading(true)
-      const phoneNumber = "85239219" // Default contact number
+      const phoneNumber = "91973041" // Default contact number
       const deliveryFee = 2500
       const totalPrice = price + deliveryFee
 
